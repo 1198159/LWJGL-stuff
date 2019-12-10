@@ -106,9 +106,9 @@ public class EApplet {
 
 	public boolean mouseIsPressed;
 
-	public float mouseX;
+	public static float mouseX;
 
-	public float mouseY;
+	public static float mouseY;
 
 	long startTime = System.currentTimeMillis();
 
@@ -130,7 +130,7 @@ public class EApplet {
 	}
 
 	public long getFrameRate() {
-		return frames / Math.max(((System.currentTimeMillis() - startTime) / 1000),1);
+		return frames / Math.max(((System.currentTimeMillis() - startTime) / 1000), 1);
 	}
 
 	public void hideCursor() {
@@ -185,10 +185,12 @@ public class EApplet {
 				switch (action) {
 				case GLFW.GLFW_PRESS:
 					mouseIsPressed = true;
+					Clicker.clickObjects();
 					mouseClicked();
 					break;
 				case GLFW.GLFW_RELEASE:
 					mouseIsPressed = false;
+					Clicker.releaseObjects();
 					mouseReleased();
 					break;
 				}
@@ -247,10 +249,12 @@ public class EApplet {
 				GLFW.glfwGetCursorPos(window, xPos, yPos);
 				mouseX = (float) xPos[0];
 				mouseY = (float) (height - yPos[0]);
-				
+
 				draw();
+				Hoverer.hoverObjects();
+				Clicker.holdObjects();
 				Drawer.drawObjects();
-				
+
 				glfwSwapBuffers(window);
 
 				frames++;

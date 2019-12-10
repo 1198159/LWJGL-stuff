@@ -39,7 +39,7 @@ public class Drawer {
 		for (Drawable d : ds) {
 			objects.add(d);
 		}
-		objects.sort(new Drawable.DrawableComparator());
+		objects.sort(new Priority.PriorityComparator());
 	}
 
 	public static void drawObjects() {

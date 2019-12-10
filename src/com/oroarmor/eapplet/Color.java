@@ -1,6 +1,7 @@
 package com.oroarmor.eapplet;
 
 public class Color {
+	public static final Color RED = new Color(255, 0, 0);
 	float r, g, b, a;
 
 	public Color(float r, float g, float b) {
@@ -30,6 +31,7 @@ public class Color {
 		return a;
 	}
 
+	@Override
 	public Color clone() {
 		return new Color(getR(), getG(), getB(), getA());
 	}

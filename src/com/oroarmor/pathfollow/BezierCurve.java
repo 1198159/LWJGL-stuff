@@ -1,6 +1,9 @@
 package com.oroarmor.pathfollow;
 
-import static com.oroarmor.eapplet.Drawer.*;
+import static com.oroarmor.eapplet.Drawer.addVertex;
+import static com.oroarmor.eapplet.Drawer.beginShape;
+import static com.oroarmor.eapplet.Drawer.endShape;
+import static com.oroarmor.eapplet.Drawer.stroke;
 
 import java.util.ArrayList;
 
@@ -21,43 +24,40 @@ public class BezierCurve implements Drawable {
 
 	Waypoint end;
 
-	float headingDistance;
-
 	public int steps;
 
-	public BezierCurve(Waypoint start, Waypoint end, float headingDistance, int steps) {
+	public BezierCurve(Waypoint start, Waypoint end, int steps) {
 		this.steps = steps;
-		this.headingDistance = headingDistance;
 		this.start = start;
 		this.end = end;
 
 		calculateCurve();
 	}
 
-	public void setPoints(float headingDistance) {
+	public void setPoints() {
 
 //		points.clear();
 
 		points = new Vector[4 + 3 * extraPoints.size()];
 
 		points[0] = (start.pos);
-		points[1] = (start.pos.add(new Vector(start.heading).multiply(headingDistance)));
+		points[1] = (start.heading.getOpposite());
 
 		int i = 2;
 		for (Waypoint point : extraPoints) {
-			points[i++] = (point.pos.add(new Vector((float) Math.PI + point.heading).multiply(headingDistance)));
+			points[i++] = (point.heading.pos);
 			points[i++] = (point.pos);
-			points[i++] = (point.pos.add(new Vector(point.heading).multiply(headingDistance)));
+			points[i++] = (point.heading.getOpposite());
 		}
 
-		points[points.length - 2] = (end.pos.add(new Vector((float) Math.PI + end.heading).multiply(headingDistance)));
+		points[points.length - 2] = (end.heading.pos);
 		points[points.length - 1] = (end.pos);
 	}
 
 	public void calculateCurve() {
-		setPoints(headingDistance);
+		setPoints();
 
-		arcPoints = new Vector[(int) steps * (extraPoints.size() + 1) + 1];
+		arcPoints = new Vector[steps * (extraPoints.size() + 1) + 1];
 
 		// loop through all the points, starting with the first 4 and skipping 3 each
 		// loop
@@ -88,22 +88,12 @@ public class BezierCurve implements Drawable {
 
 	@Override
 	public void draw() {
-		stroke(0, 0, 0);
+		stroke(0, 255, 0);
 		beginShape();
 		for (Vector vec : arcPoints) {
 			addVertex(vec.x, vec.y);
 		}
 		endShape();
-
-		fill(255, 0, 0);
-		ellipse(points[1].x, points[1].y, 3, 3);
-		line(points[0].x, points[0].y, points[1].x, points[1].y);
-
-		Vector endHeading = points[points.length - 2];
-		endHeading = end.pos.add(end.pos.sub(endHeading));
-		line(points[points.length - 1].x, points[points.length - 1].y, endHeading.x, endHeading.y);
-		ellipse(endHeading.x, endHeading.y, 3, 3);
-
 	}
 
 	@Override
