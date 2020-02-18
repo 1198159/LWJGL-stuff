@@ -13,14 +13,16 @@ public class QuinticHermiteSpline implements Drawable {
 	private int priority;
 
 	private Waypoint start, end;
-
+	
 	private float ax, bx, cx, dx, ex, fx;
 	private float ay, by, cy, dy, ey, fy;
 
 	private float x0, x1, dx0, dx1, ddx0, ddx1;
 	private float y0, y1, dy0, dy1, ddy0, ddy1;
-
-	public QuinticHermiteSpline(Waypoint start, Waypoint end) {
+	
+	private String id;
+	public QuinticHermiteSpline(Waypoint start, Waypoint end, String i) {
+		id = i;
 		this.start = start;
 		this.end = end;
 		setPositions();
@@ -67,17 +69,32 @@ public class QuinticHermiteSpline implements Drawable {
 	private float getY(float t) {
 		return ay * t * t * t * t * t + by * t * t * t * t + cy * t * t * t + dy * t * t + ey * t + fy;
 	}
-
+	public boolean tt = true;
 	@Override
 	public void draw() {
 		setPositions();
 		calculateCoefficients();
 		stroke(0, 0, 0);
 		beginShape();
-		for (int i = 0; i < 100; i++) {
+		float ot;
+		double angle;
+		int min = 0;
+		int max = 100;
+		for (int i = min; i <= max; i++) {
 			float t = i * 1f / 100f;
+			ot = Math.max((i-1) * 1f / 100f, min);
+			//nt = Math.min(i+1 * 1f / 10f, max);
 			addVertex(getX(t), getY(t));
+			if(i != 0) {
+				angle = Math.atan((getY(t)-getY(ot))/(getX(t)-getX(ot)));
+			}else {
+				angle = this.start.getHeading();
+			}
+			if(tt)
+			System.out.println(id+new Position(getX(t), getY(t), angle));
+			
 		}
+		tt=false;
 		endShape();
 	}
 

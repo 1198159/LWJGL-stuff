@@ -11,10 +11,12 @@ public class PathFollowing extends EApplet {
 
 	Waypoint start;
 	Waypoint mid;
+	Waypoint mid2;
 	Waypoint end;
 
 	QuinticHermiteSpline aspline;
 	QuinticHermiteSpline bspline;
+	QuinticHermiteSpline cspline;
 
 	int steps = 100;
 
@@ -24,20 +26,23 @@ public class PathFollowing extends EApplet {
 
 	@Override
 	public void settings() {
-		size(400, 400);
+		size(1000, 1000);
 	}
 
 	@Override
 	public void setup() {
 		end = new Waypoint(new Vector(200, 100), (float) Math.PI / 2, false);
-		mid = new Waypoint(new Vector(300, 200), (float) (Math.PI / 2), true);
-		start = new Waypoint(new Vector(250, 300), (float) (Math.PI), false);
+		mid = new Waypoint(new Vector(600, 400), (float) (Math.PI / 2), true);
+		mid2 = new Waypoint(new Vector(800, 300), (float) (Math.PI / 2), true);
+		start = new Waypoint(new Vector(550, 700), (float) (Math.PI), false);
 
-		aspline = new QuinticHermiteSpline(start, mid);
-		bspline = new QuinticHermiteSpline(mid, end);
+		aspline = new QuinticHermiteSpline(start, mid, "a");
+		bspline = new QuinticHermiteSpline(mid, mid2, "b");
+		cspline = new QuinticHermiteSpline(mid2, end, "c");
 
-		Drawer.addDrawable(aspline, bspline);
-		Button.addButton(start, mid, end);
+
+		Drawer.addDrawable(aspline, bspline, cspline);
+		Button.addButton(start, mid, mid2, end);
 	}
 
 	@Override

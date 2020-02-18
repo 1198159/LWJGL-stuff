@@ -13,7 +13,7 @@ public class WaypointHeader extends Button {
 
 	Vector pos;
 	Color fillColor = Color.RED;
-	int r = 5;
+	int r = 10;
 	boolean mid = false;
 	Waypoint point;
 
@@ -26,7 +26,7 @@ public class WaypointHeader extends Button {
 
 	public WaypointHeader(float x, float y, float heading, boolean mid, Waypoint point) {
 		super(x + (float) Math.cos(heading), y + (float) Math.sin(heading));
-		this.pos = new Vector(x, y).add(new Vector(heading).multiply(30));
+		this.pos = new Vector(x, y).add(new Vector(heading).multiply(100));
 		this.mid = mid;
 		this.point = point;
 	}
@@ -46,13 +46,13 @@ public class WaypointHeader extends Button {
 
 	@Override
 	public void onHover() {
-		r = 5;
 		if (!getSelected())
 			fillColor = new Color(255, 100, 0);
 	}
 
 	@Override
 	public void onClick() {
+		r=13;
 		fillColor = new Color(0, 255, 0);
 	}
 
@@ -90,7 +90,7 @@ public class WaypointHeader extends Button {
 	@Override
 	public void onHoverOff() {
 		fillColor = Color.RED;
-		r = 3;
+		r=10;
 	}
 
 	public Vector getOpposite() {

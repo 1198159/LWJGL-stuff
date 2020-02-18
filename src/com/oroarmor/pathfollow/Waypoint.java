@@ -13,7 +13,7 @@ public class Waypoint extends Button {
 
 	Vector pos;
 	WaypointHeader heading;
-	int r = 10;
+	int r = 20;
 	Color fillColor = new Color(255, 0, 0);
 
 	public Waypoint(Vector pos, float heading, boolean mid) {
